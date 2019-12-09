@@ -31,7 +31,7 @@ The following default values are set:
 
 ```hcl
 module "aws-config" {
-  source = "git::https://github.com/zoitech/terraform-aws-config.git?ref=v1.0.1"
+  source = "git::https://github.com/zoitech/terraform-aws-config.git?ref=1.0.1"
   accessKeyRotate_maxAccessKeyAge               = 180
   dbInstanceBackupEnabled_RetentionPeriod       = 90
   dbInstanceBackupEnabled_PreferredBackupWindow = "23:00-01:00"
