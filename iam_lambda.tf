@@ -16,11 +16,12 @@ resource "aws_iam_role" "s3_webserver_buckets_role" {
   ]
 }
 EOF
+
 }
 
 resource "aws_iam_policy" "lambda_logging" {
-  name = "lambda_logging"
-  path = "/"
+  name        = "lambda_logging"
+  path        = "/"
   description = "Allows Lambda functions to write to CloudWatch"
 
   policy = <<EOF
@@ -39,11 +40,12 @@ resource "aws_iam_policy" "lambda_logging" {
   ]
 }
 EOF
+
 }
 
 resource "aws_iam_policy" "lambda_put_config_evaluations" {
-  name = "lambda-put-config-evaluations"
-  path = "/"
+  name        = "lambda-put-config-evaluations"
+  path        = "/"
   description = "Allows Lambda to put an evaluation to AWS Config"
 
   policy = <<EOF
@@ -59,24 +61,23 @@ resource "aws_iam_policy" "lambda_put_config_evaluations" {
   ]
 }
 EOF
+
 }
 
 resource "aws_iam_role_policy_attachment" "s3_webserver_buckets_cloudwatch" {
-  role       = "${aws_iam_role.s3_webserver_buckets_role.name}"
-  policy_arn = "${aws_iam_policy.lambda_logging.arn}"
+  role       = aws_iam_role.s3_webserver_buckets_role.name
+  policy_arn = aws_iam_policy.lambda_logging.arn
 }
 
 resource "aws_iam_role_policy_attachment" "s3_webserver_buckets_attachment_s3readonly" {
-  role       = "${aws_iam_role.s3_webserver_buckets_role.name}"
+  role       = aws_iam_role.s3_webserver_buckets_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
 }
 
 resource "aws_iam_role_policy_attachment" "s3_webserver_buckets_attachment_config_putevaluation" {
-  role       = "${aws_iam_role.s3_webserver_buckets_role.name}"
-  policy_arn = "${aws_iam_policy.lambda_put_config_evaluations.arn}"
+  role       = aws_iam_role.s3_webserver_buckets_role.name
+  policy_arn = aws_iam_policy.lambda_put_config_evaluations.arn
 }
-
-
 
 resource "aws_iam_role" "iam_console_login_role" {
   name = "lambda-iam-console-login"
@@ -96,21 +97,22 @@ resource "aws_iam_role" "iam_console_login_role" {
   ]
 }
 EOF
+
 }
 
 resource "aws_iam_role_policy_attachment" "iam_console_login_iam_read_only" {
-  role       = "${aws_iam_role.iam_console_login_role.name}"
+  role       = aws_iam_role.iam_console_login_role.name
   policy_arn = "arn:aws:iam::aws:policy/IAMReadOnlyAccess"
 }
 
 resource "aws_iam_role_policy_attachment" "iam_console_login_cloudwatch" {
-  role       = "${aws_iam_role.iam_console_login_role.name}"
-  policy_arn = "${aws_iam_policy.lambda_logging.arn}"
+  role       = aws_iam_role.iam_console_login_role.name
+  policy_arn = aws_iam_policy.lambda_logging.arn
 }
 
 resource "aws_iam_role_policy_attachment" "iam_console_login_config" {
-  role = "${aws_iam_role.iam_console_login_role.name}"
-  policy_arn = "${aws_iam_policy.lambda_put_config_evaluations.arn}"
+  role       = aws_iam_role.iam_console_login_role.name
+  policy_arn = aws_iam_policy.lambda_put_config_evaluations.arn
 }
 
 resource "aws_iam_role" "aws_config_recorder" {
@@ -131,4 +133,6 @@ resource "aws_iam_role" "aws_config_recorder" {
   ]
 }
 EOF
+
 }
+
