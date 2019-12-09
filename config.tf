@@ -7,17 +7,14 @@
 #}
 
 resource "aws_config_organization_managed_rule" "resourcesTagged" {
-  name = "instanceTagged"
-  input_parameters = <<EOF
-  {
-    "tag1Key" : "owner"
-  }
-EOF
+  name             = "instanceTagged"
+  input_parameters = var.required_tags
+
   rule_identifier = "REQUIRED_TAGS"
 }
 
 resource "aws_config_organization_managed_rule" "accessKeyRotated" {
-  name = "access_key_rotated"
+  name             = "access_key_rotated"
   input_parameters = <<EOF
   {
     "maxAccessKeyAge" : "${var.accessKeyRotated_maxAccessKeyAge}"
@@ -28,7 +25,7 @@ EOF
 }
 
 resource "aws_config_organization_managed_rule" "dbInstanceBackupEnabled" {
-  name = "db_instance_backup_enabled"
+  name             = "db_instance_backup_enabled"
   input_parameters = <<EOF
   {
     "backupRetentionPeriod" : "${var.dbInstanceBackupEnabled_RetentionPeriod}",
@@ -53,7 +50,7 @@ resource "aws_config_organization_managed_rule" "elasticsearchInVpcOnly" {
 }
 
 resource "aws_config_organization_managed_rule" "elbLoggingEnabled" {
-  name = "elb_logging_enabled"
+  name             = "elb_logging_enabled"
   input_parameters = <<EOF
   {
     "s3BucketNames" : "${var.elbLoggingEnabled_s3BucketNames}"
@@ -81,13 +78,13 @@ resource "aws_config_organization_custom_rule" "s3WebserverBuckets" {
 
   #depends_on = ["aws_config_configuration_recorder.config-recorder", "aws_lambda_permission.s3_webserver_buckets_config_permissions"]
   lambda_function_arn = "${aws_lambda_function.s3_webserver_buckets.arn}"
-  trigger_types = ["ScheduledNotification"]
+  trigger_types       = ["ScheduledNotification"]
 }
 
 resource "aws_config_organization_custom_rule" "iam_console_login" {
   name = "iam_console_login"
 
   lambda_function_arn = "${aws_lambda_function.iam_console_login.arn}"
-  trigger_types = ["ScheduledNotification"]
+  trigger_types       = ["ScheduledNotification"]
 }
 
