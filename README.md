@@ -25,7 +25,7 @@ The following default values are set:
 * accessKeyRotate_maxAccessKeyAge               = 30
 * dbInstanceBackupEnabled_RetentionPeriod       = 30
 * dbInstanceBackupEnabled_PreferredBackupWindow = "22:00-24:00"
-* dbInstanceBackupEnabled_CheckReadReplicas     = True
+* dbInstanceBackupEnabled_CheckReadReplicas     = true
 * elbLoggingEnabled_s3BucketNames               = "backup"
 * lambda_timeout                                = 30
 
@@ -35,7 +35,7 @@ module "aws-config" {
   accessKeyRotate_maxAccessKeyAge               = 180
   dbInstanceBackupEnabled_RetentionPeriod       = 90
   dbInstanceBackupEnabled_PreferredBackupWindow = "23:00-01:00"
-  dbInstanceBackupEnabled_CheckReadReplicas     = True
+  dbInstanceBackupEnabled_CheckReadReplicas     = true
   elbLoggingEnabled_s3BucketNames               = "backup"
   lambda_timeout                                = 60
 }
