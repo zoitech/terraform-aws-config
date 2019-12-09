@@ -21,11 +21,13 @@ resource "aws_config_organization_managed_rule" "accessKeyRotated" {
   }
 EOF
 
+
   rule_identifier = "ACCESS_KEYS_ROTATED"
 }
 
 resource "aws_config_organization_managed_rule" "dbInstanceBackupEnabled" {
-  name             = "db_instance_backup_enabled"
+  name = "db_instance_backup_enabled"
+  # https://docs.aws.amazon.com/config/latest/developerguide/db-instance-backup-enabled.html
   input_parameters = <<EOF
   {
     "backupRetentionPeriod" : "${var.dbInstanceBackupEnabled_RetentionPeriod}",
@@ -33,6 +35,7 @@ resource "aws_config_organization_managed_rule" "dbInstanceBackupEnabled" {
     "checkReadReplicas"     : "${var.dbInstanceBackupEnabled_CheckReadReplicas}"
   }
 EOF
+
 
   rule_identifier = "DB_INSTANCE_BACKUP_ENABLED"
 }
@@ -50,12 +53,15 @@ resource "aws_config_organization_managed_rule" "elasticsearchInVpcOnly" {
 }
 
 resource "aws_config_organization_managed_rule" "elbLoggingEnabled" {
-  name             = "elb_logging_enabled"
+  name = "elb_logging_enabled"
+  # https://docs.aws.amazon.com/config/latest/developerguide/elb-logging-enabled.html
   input_parameters = <<EOF
   {
     "s3BucketNames" : "${var.elbLoggingEnabled_s3BucketNames}"
   }
-  EOF
+  
+EOF
+
 
   rule_identifier = "ELB_LOGGING_ENABLED"
 }
@@ -77,14 +83,14 @@ resource "aws_config_organization_custom_rule" "s3WebserverBuckets" {
   name = "s3_webserver_buckets"
 
   #depends_on = ["aws_config_configuration_recorder.config-recorder", "aws_lambda_permission.s3_webserver_buckets_config_permissions"]
-  lambda_function_arn = "${aws_lambda_function.s3_webserver_buckets.arn}"
+  lambda_function_arn = aws_lambda_function.s3_webserver_buckets.arn
   trigger_types       = ["ScheduledNotification"]
 }
 
 resource "aws_config_organization_custom_rule" "iam_console_login" {
   name = "iam_console_login"
 
-  lambda_function_arn = "${aws_lambda_function.iam_console_login.arn}"
+  lambda_function_arn = aws_lambda_function.iam_console_login.arn
   trigger_types       = ["ScheduledNotification"]
 }
 
