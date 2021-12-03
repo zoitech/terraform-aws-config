@@ -8,7 +8,7 @@
 
 resource "aws_config_organization_managed_rule" "resourcesTagged" {
   name             = "instanceTagged"
-  input_parameters = var.required_tags
+  input_parameters = replace(replace(jsonencode(var.required_tags), "\"", ""), ":", "=")
 
   rule_identifier = "REQUIRED_TAGS"
 }
